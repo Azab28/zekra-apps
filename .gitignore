@@ -1,0 +1,7 @@
+node_modules/
+# Fonts the builds download (Google Fonts for the extension, the mushaf pages)
+data/fonts/
+.env*
+*.pem
+*.tsbuildinfo
+.DS_Store

@@ -1,0 +1,3 @@
+# Install like npm did: one flat node_modules (Next, tsx and the worker expect it).
+[install]
+linker = "hoisted"

@@ -1,0 +1,448 @@
+body {
+  width: 360px;
+  font-size: 14px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.head .mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+.head-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.head-text strong {
+  color: var(--primary);
+}
+
+#next {
+  font-size: 0.8rem;
+}
+
+#next a {
+  color: var(--primary);
+}
+
+.player {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 14px 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.player-empty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.player .play {
+  width: 42px;
+  min-height: 42px;
+  padding: 0;
+  flex: none;
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.player .play:hover {
+  background: color-mix(in oklch, var(--primary) 88%, black);
+}
+
+.player-text {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.player-text strong,
+.player-text span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player-text span {
+  font-size: 0.8rem;
+}
+
+.player-text .error {
+  color: var(--warn);
+}
+
+.volume {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted-foreground);
+}
+
+.volume input {
+  width: 52px;
+  accent-color: var(--primary);
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 14px 6px;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--muted);
+}
+
+.tabs[hidden] {
+  display: none;
+}
+
+.tab {
+  min-height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.tab.on {
+  background: var(--card);
+  box-shadow: var(--shadow);
+  font-weight: 600;
+}
+
+.stations {
+  height: 290px;
+  margin: 0;
+  padding: 2px 8px 8px;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.station {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-height: 38px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+  text-align: start;
+}
+
+.station:hover {
+  background: var(--accent);
+}
+
+.station .name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.station .hover-only {
+  opacity: 0;
+  color: var(--primary);
+}
+
+.station:hover .hover-only,
+.station:focus-visible .hover-only {
+  opacity: 1;
+}
+
+.station.current {
+  background: var(--accent);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.none {
+  padding: 24px 0;
+  text-align: center;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+}
+
+.foot:hover {
+  color: var(--primary);
+}
+
+.player-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn.lit {
+  color: var(--primary);
+}
+
+.icon-btn.open {
+  background: var(--accent);
+}
+
+.icon-btn.small {
+  width: 28px;
+  min-height: 28px;
+  padding: 0;
+}
+
+/* ---------- the recording's place, the sleep timer ---------- */
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+}
+
+.progress input {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--primary);
+}
+
+.progress .time {
+  min-width: 34px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.progress .bar {
+  flex: 1;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--muted);
+}
+
+.progress .bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--primary);
+}
+
+.sleep-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pill {
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+.pill:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.sleep-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+}
+
+.link-btn {
+  margin-inline-start: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+/* ---------- suggestions ---------- */
+.suggest {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 8px 14px 0;
+}
+
+.suggest[hidden] {
+  display: none;
+}
+
+.suggest-chip {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 6px 12px 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+  cursor: pointer;
+  text-align: start;
+}
+
+.suggest-chip:hover,
+.suggest-chip.on {
+  border-color: var(--primary);
+}
+
+.suggest-chip .icon {
+  color: var(--primary);
+}
+
+.suggest-chip span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.suggest-chip b {
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.suggest-chip small {
+  overflow: hidden;
+  color: var(--muted-foreground);
+  font-size: 0.7rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.suggest-chip.wird {
+  background: var(--accent);
+}
+
+/* ---------- rows ---------- */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.row .station {
+  flex: 1;
+  min-width: 0;
+}
+
+.station .name {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.station .name small {
+  overflow: hidden;
+  font-size: 0.72rem;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.station .num {
+  min-width: 26px;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.star {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  opacity: 0.45;
+}
+
+.row:hover .star,
+.star:focus-visible,
+.reciter-head .star {
+  opacity: 1;
+}
+
+.star.on {
+  color: var(--gold);
+  opacity: 1;
+}
+
+.star.on svg {
+  fill: currentColor;
+}
+
+.list-head {
+  padding: 10px 10px 4px;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.reciter-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 2px 6px;
+}
+
+.reciter-head strong {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.moshaf-pick {
+  padding: 0 2px 6px;
+}
+
+.moshaf-pick select {
+  width: 100%;
+}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>تبويب جديد</title>
+    <link rel="icon" href="icons/32.png" />
+    <link rel="stylesheet" href="fonts.css" />
+    <link rel="stylesheet" href="base.css" />
+    <link rel="stylesheet" href="newtab.css" />
+    <script src="boot.js"></script>
+    <script src="newtab.js" defer></script>
+  </head>
+  <body>
+    <div class="backdrop" aria-hidden="true"></div>
+
+    <header class="corner corner-start" id="clock" aria-live="off"></header>
+    <div class="corner corner-end" id="tools"></div>
+
+    <nav class="dock panel" id="dock" aria-label="الاختصارات"></nav>
+
+    <main class="stage">
+      <div class="search" id="search"></div>
+      <section class="ayah-card panel" id="ayah" aria-label="آية من القرآن الكريم"></section>
+      <section class="prayer-card panel" id="prayers" aria-label="مواقيت الصلاة"></section>
+    </main>
+
+    <footer class="bottom">
+      <div class="bottom-start" id="bottom-start"></div>
+      <div class="bottom-center" id="occasion"></div>
+      <div class="bottom-end" id="bottom-end"></div>
+    </footer>
+
+    <dialog id="settings" class="settings panel" aria-label="الإعدادات"></dialog>
+  </body>
+</html>

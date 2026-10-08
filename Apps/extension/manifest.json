@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "ذِكرى — القرآن والأذكار",
+  "short_name": "ذِكرى",
+  "description": "آية من المصحف في كل تبويب جديد، ومواقيت الصلاة وتنبيهاتها، وأذكار الصباح والمساء، وإذاعات القرآن الكريم والتلاوات وورد الاستماع.",
+  "version": "1.5.1",
+  "minimum_chrome_version": "127",
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "action": {
+    "default_title": "ذِكرى",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/16.png",
+      "32": "icons/32.png"
+    }
+  },
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "alarms",
+    "notifications",
+    "offscreen",
+    "favicon",
+    "search"
+  ],
+  "optional_permissions": [
+    "topSites",
+    "bookmarks",
+    "history",
+    "management",
+    "geolocation"
+  ]
+}

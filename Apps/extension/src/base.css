@@ -1,0 +1,176 @@
+/* Shared by the new tab and the popup: the site's colours (src/app/globals.css) and a few controls. */
+:root {
+  --h: 166;
+  --n: 95;
+  --background: oklch(0.99 0.004 var(--n));
+  --foreground: oklch(0.2 0.015 var(--h));
+  --card: oklch(1 0 0);
+  --primary: oklch(0.46 0.095 var(--h));
+  --primary-foreground: oklch(0.985 0.01 var(--h));
+  --secondary: oklch(0.96 0.014 var(--h));
+  --muted: oklch(0.965 0.006 var(--n));
+  --muted-foreground: oklch(0.5 0.015 var(--n));
+  --accent: oklch(0.955 0.02 var(--h));
+  --border: oklch(0.915 0.008 var(--n));
+  --ring: oklch(0.62 0.1 var(--h));
+  --gold: oklch(0.7 0.12 80);
+  --warn: oklch(0.6 0.15 55);
+  --shadow: 0 1px 2px oklch(0.2 0.02 var(--h) / 0.06), 0 8px 24px oklch(0.2 0.02 var(--h) / 0.06);
+  --radius: 14px;
+  --font-sans: "IBM Plex Sans Arabic", system-ui, "Segoe UI", sans-serif;
+  --font-naskh: "Amiri", "Traditional Arabic", serif;
+  --font-quran: "Amiri Quran", "Amiri", serif;
+  color-scheme: light;
+}
+
+.dark {
+  --background: oklch(0.17 0.012 var(--h));
+  --foreground: oklch(0.95 0.008 var(--n));
+  --card: oklch(0.21 0.014 var(--h));
+  --primary: oklch(0.72 0.11 var(--h));
+  --primary-foreground: oklch(0.18 0.02 var(--h));
+  --secondary: oklch(0.26 0.02 var(--h));
+  --muted: oklch(0.25 0.012 var(--h));
+  --muted-foreground: oklch(0.7 0.012 var(--n));
+  --accent: oklch(0.27 0.03 var(--h));
+  --border: oklch(1 0 0 / 0.1);
+  --ring: oklch(0.6 0.1 var(--h));
+  --gold: oklch(0.78 0.11 80);
+  --warn: oklch(0.75 0.14 60);
+  --shadow: 0 1px 2px oklch(0 0 0 / 0.3), 0 8px 24px oklch(0 0 0 / 0.25);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.icon {
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45em;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.btn:hover {
+  border-color: color-mix(in oklch, var(--primary) 40%, var(--border));
+  background: var(--accent);
+}
+
+.btn.primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.btn.primary:hover {
+  background: color-mix(in oklch, var(--primary) 88%, black);
+}
+
+.btn.ghost {
+  border-color: transparent;
+  background: transparent;
+}
+
+.btn.ghost:hover {
+  background: var(--accent);
+}
+
+.icon-btn {
+  width: 36px;
+  padding: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.field {
+  width: 100%;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+}
+
+.muted {
+  color: var(--muted-foreground);
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.toast {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 24px;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 0.875rem;
+  box-shadow: var(--shadow);
+  transition: opacity 0.3s;
+  z-index: 100;
+}
+
+.toast.out {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

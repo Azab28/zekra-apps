@@ -1,0 +1,28 @@
+{
+  "name": "zekra-apps",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "ext:build": "tsx scripts/build-extension.ts",
+    "ext:zip": "tsx scripts/build-extension.ts --zip",
+    "ext:store": "tsx scripts/build-extension.ts --store",
+    "ext:shots": "tsx scripts/build-extension.ts --shots",
+    "desktop:export": "tsx Apps/desktop/tools/export.ts"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^1.0.9",
+    "adhan": "^4.4.6",
+    "luxon": "^3.7.2",
+    "lucide-react": "^1.48.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.3.4",
+    "@types/luxon": "^3.7.5",
+    "@types/node": "^20",
+    "esbuild": "^0.25.12",
+    "tsx": "^4.23.15",
+    "typescript": "^5"
+  }
+}

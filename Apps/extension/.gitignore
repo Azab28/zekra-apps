@@ -1,0 +1,4 @@
+# the build (npm run ext:build) and the store zip (npm run ext:zip)
+/dist/
+/*.zip
+/dist-*/
