@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Zekra.Core/Zekra.Core.csproj" />
+  <Project Path="Zekra.Desktop/Zekra.Desktop.csproj" />
+  <Project Path="Zekra.Tests/Zekra.Tests.csproj" />
+</Solution>

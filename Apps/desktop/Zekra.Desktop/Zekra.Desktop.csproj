@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.22621.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <RootNamespace>Zekra.Desktop</RootNamespace>
+    <AssemblyName>Zekra</AssemblyName>
+    <Product>ذِكرى</Product>
+    <Version>1.0.0</Version>
+    <UseWinUI>true</UseWinUI>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+    <Platforms>x64;ARM64</Platforms>
+    <Nullable>enable</Nullable>
+    <!-- Only Arabic and English .NET resources in the package -->
+    <SatelliteResourceLanguages>ar;en</SatelliteResourceLanguages>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets/zekra.ico</ApplicationIcon>
+    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/../../..'))</RepoRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260804001" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.9169" />
+    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.4.1" />
+    <PackageReference Include="Velopack" Version="1.2.158" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.11" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Zekra.Core/Zekra.Core.csproj" />
+    <!-- The adhan recordings stay in the extension (one copy in git); the build copies them next to the app. -->
+    <Content Include="../../extension/adhan/*.mp3" Link="Adhan/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Remove="Assets/zekra.ico" />
+    <Content Include="Assets/zekra.ico" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <!-- The icon is drawn from src/lib/logo.ts (needs `bun install` in the repo root). -->
+  <Target Name="ExportIcon" BeforeTargets="BeforeBuild" Inputs="$(RepoRoot)/src/lib/logo.ts;$(MSBuildProjectDirectory)/../tools/export.ts" Outputs="Assets/zekra.ico">
+    <Exec Command="node --import tsx Apps/desktop/tools/export.ts icon &quot;$(MSBuildProjectDirectory)/Assets/zekra.ico&quot;" WorkingDirectory="$(RepoRoot)" />
+  </Target>
+  <!-- The SDK copies its machine-learning runtime (onnxruntime, DirectML: ~40 MB) next to every app; this one never loads it. -->
+  <ItemGroup>
+    <UnusedRuntime Include="onnxruntime.dll;onnxruntime_providers_shared.dll;DirectML.dll" />
+  </ItemGroup>
+  <Target Name="DropUnusedRuntime" AfterTargets="Build">
+    <Delete Files="@(UnusedRuntime->'$(OutDir)%(Identity)')" />
+  </Target>
+  <Target Name="DropUnusedRuntimeFromPublish" AfterTargets="Publish">
+    <Delete Files="@(UnusedRuntime->'$(PublishDir)%(Identity)')" />
+  </Target>
+</Project>

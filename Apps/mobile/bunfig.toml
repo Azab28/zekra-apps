@@ -1,0 +1,3 @@
+# Install like npm did: one flat node_modules (Metro and Expo autolinking expect it).
+[install]
+linker = "hoisted"

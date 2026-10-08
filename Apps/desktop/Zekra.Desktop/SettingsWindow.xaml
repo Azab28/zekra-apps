@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="Zekra.Desktop.SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid x:Name="Root" FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid x:Name="TitleBar" Height="48" Padding="16,0,16,0" ColumnSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ContentPresenter x:Name="LogoHost" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="الإعدادات" VerticalAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}" />
+        </Grid>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel x:Name="Sections" MaxWidth="680" Padding="24,0,24,24">
+
+                <TextBlock Text="المكان" Style="{StaticResource SectionTitle}" />
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="12">
+                        <TextBlock x:Name="PlaceSummary" TextWrapping="Wrap" />
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <ComboBox x:Name="CountryBox" Header="الدولة" HorizontalAlignment="Stretch" SelectionChanged="OnCountry" />
+                            <ComboBox x:Name="CityBox" Grid.Column="1" Header="المدينة" HorizontalAlignment="Stretch" SelectionChanged="OnCity" />
+                        </Grid>
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <Button Click="OnLocate" AutomationProperties.Name="استخدم موقع الجهاز">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE81D;" FontSize="14" />
+                                    <TextBlock Text="استخدم موقع الجهاز" />
+                                </StackPanel>
+                            </Button>
+                            <ProgressRing x:Name="LocateRing" IsActive="False" Width="20" Height="20" />
+                        </StackPanel>
+                        <TextBlock x:Name="LocateStatus" TextWrapping="Wrap" Visibility="Collapsed" Foreground="{ThemeResource SystemFillColorCautionBrush}" />
+                        <HyperlinkButton x:Name="LocationSettingsLink" Content="فتح إعدادات الموقع في ويندوز" NavigateUri="ms-settings:privacy-location" Visibility="Collapsed" Padding="0" />
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Text="الحساب" Style="{StaticResource SectionTitle}" />
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="12">
+                        <ComboBox x:Name="MethodBox" Header="طريقة الحساب" HorizontalAlignment="Stretch" DisplayMemberPath="Label" SelectionChanged="OnMethod" />
+                        <RadioButtons x:Name="MadhabBox" Header="مذهب العصر" SelectionChanged="OnMadhab">
+                            <x:String>الجمهور (الشافعي)</x:String>
+                            <x:String>الحنفي</x:String>
+                        </RadioButtons>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Text="تعديل المواعيد بالدقائق" Style="{StaticResource SectionTitle}" />
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="إن كان مسجد حيّك أو التقويم الذي تتبعه يختلف بدقيقة أو اثنتين، زِد أو أنقص دقائق لكل صلاة (±٣٠)." TextWrapping="Wrap" Opacity="0.8" />
+                        <VariableSizedWrapGrid x:Name="AdjustGrid" Orientation="Horizontal" ItemWidth="200" />
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Text="الأذان" Style="{StaticResource SectionTitle}" />
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="14">
+                        <ToggleSwitch x:Name="AdhanSwitch" Header="نافذة الأذان عند كل صلاة" OnContent="تعمل" OffContent="متوقفة" Toggled="OnAdhan" />
+                        <RadioButtons x:Name="SoundBox" Header="صوت الأذان" MaxColumns="3" SelectionChanged="OnSound">
+                            <x:String>كامل</x:String>
+                            <x:String>مختصر (٢٢ ثانية)</x:String>
+                            <x:String>بلا صوت</x:String>
+                        </RadioButtons>
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ComboBox x:Name="VoiceBox" Header="المؤذن" HorizontalAlignment="Stretch" DisplayMemberPath="Name" SelectionChanged="OnVoice" />
+                            <Button x:Name="PreviewButton" Grid.Column="1" VerticalAlignment="Bottom" Click="OnPreview" AutomationProperties.Name="استمع">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon x:Name="PreviewIcon" Glyph="&#xE768;" FontSize="14" />
+                                    <TextBlock x:Name="PreviewText" Text="استمع" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                        <Slider x:Name="VolumeSlider" Header="مستوى الصوت" Minimum="0" Maximum="100" StepFrequency="5" ValueChanged="OnVolume" />
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="بلا صوت في هذه الصلوات (تظهر النافذة فقط)" />
+                            <VariableSizedWrapGrid x:Name="MutedGrid" Orientation="Horizontal" ItemWidth="110" />
+                        </StackPanel>
+                        <ComboBox x:Name="BeforeBox" Header="تنبيه قبل الأذان" MinWidth="200" SelectionChanged="OnBefore" />
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <Button Click="OnTestAdhan" AutomationProperties.Name="جرّب الأذان بعد دقيقة">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE916;" FontSize="14" />
+                                    <TextBlock Text="جرّب الأذان بعد دقيقة" />
+                                </StackPanel>
+                            </Button>
+                            <TextBlock x:Name="TestStatus" VerticalAlignment="Center" Opacity="0.8" />
+                        </StackPanel>
+                        <TextBlock TextWrapping="Wrap" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"
+                                   Text="تظهر نافذة الأذان في ركن الشاشة دون أن تأخذ التركيز من البرنامج الذي تعمل عليه، ولا تظهر فوق الألعاب والعروض بملء الشاشة: يُسمع الأذان فقط." />
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Text="الذكر والتسبيح" Style="{StaticResource SectionTitle}" />
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="14">
+                        <ToggleSwitch x:Name="ZikrSwitch" Header="نافذة ذكر كل فترة" OnContent="تعمل" OffContent="متوقفة" Toggled="OnZikr" />
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <ComboBox x:Name="EveryBox" Header="تظهر كل" HorizontalAlignment="Stretch" SelectionChanged="OnEvery" />
+                            <ComboBox x:Name="StayBox" Grid.Column="1" Header="وتختفي وحدها بعد" HorizontalAlignment="Stretch" SelectionChanged="OnStay" />
+                        </Grid>
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="الأذكار التي تظهر" />
+                            <VariableSizedWrapGrid x:Name="PhrasesGrid" Orientation="Horizontal" ItemWidth="300" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <Button Content="اعرضها الآن" Click="OnZikrNow" />
+                            <TextBlock x:Name="TotalsText" VerticalAlignment="Center" Opacity="0.8" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Text="الصلاة القادمة على شريط المهام" Style="{StaticResource SectionTitle}" />
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="8">
+                        <RadioButtons x:Name="WidgetBox" SelectionChanged="OnWidget">
+                            <x:String>بدون</x:String>
+                            <x:String>داخل شريط المهام (تجريبي)</x:String>
+                            <x:String>شريط صغير فوق شريط المهام</x:String>
+                        </RadioButtons>
+                        <TextBlock x:Name="WidgetStatus" TextWrapping="Wrap" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" />
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Text="الحساب (اختياري)" Style="{StaticResource SectionTitle}" />
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="12">
+                        <StackPanel x:Name="SignedOutPanel" Spacing="12">
+                            <TextBlock TextWrapping="Wrap" Opacity="0.85"
+                                       Text="سجّل الدخول بحسابك في ذِكرى لتتبعك مدينتك ومواقيتك بين الموقع والبوت والبرامج، ويُضاف تسبيحك هنا إلى حسابك." />
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button x:Name="TelegramButton" Style="{StaticResource AccentButtonStyle}" Click="OnTelegram" AutomationProperties.Name="الدخول بتيليجرام">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <FontIcon Glyph="&#xE724;" FontSize="14" />
+                                        <TextBlock Text="الدخول بتيليجرام" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="PasswordButton" Content="الدخول باسم المستخدم" Click="OnPassword" />
+                                <HyperlinkButton Content="حساب جديد" NavigateUri="https://zekra.site/login" />
+                            </StackPanel>
+                            <StackPanel x:Name="WaitingPanel" Orientation="Horizontal" Spacing="10" Visibility="Collapsed">
+                                <ProgressRing IsActive="True" Width="18" Height="18" />
+                                <TextBlock Text="افتح تيليجرام واضغط «نعم، أنا» في رسالة البوت." VerticalAlignment="Center" TextWrapping="Wrap" />
+                                <Button Content="إلغاء" Click="OnCancelTelegram" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel x:Name="SignedInPanel" Spacing="8" Visibility="Collapsed">
+                            <TextBlock x:Name="AccountName" Style="{StaticResource BodyStrongTextBlockStyle}" />
+                            <TextBlock x:Name="AccountTotal" Opacity="0.85" />
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button Content="مزامنة الآن" Click="OnSyncNow" />
+                                <Button Content="تسجيل الخروج" Click="OnSignOut" />
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock x:Name="AccountProblem" TextWrapping="Wrap" Visibility="Collapsed" Foreground="{ThemeResource SystemFillColorCautionBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Text="عام" Style="{StaticResource SectionTitle}" />
+                <Border Style="{StaticResource Card}">
+                    <ToggleSwitch x:Name="StartupSwitch" Header="التشغيل مع بدء ويندوز" OnContent="يعمل" OffContent="متوقف" Toggled="OnStartup" />
+                </Border>
+
+                <TextBlock Text="عن البرنامج" Style="{StaticResource SectionTitle}" />
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="10">
+                        <TextBlock x:Name="VersionText" />
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button x:Name="CheckButton" Content="التحقق من التحديثات" Click="OnCheckUpdates" />
+                            <Button x:Name="RestartButton" Content="تثبيت التحديث وإعادة التشغيل" Style="{StaticResource AccentButtonStyle}" Click="OnRestart" Visibility="Collapsed" />
+                        </StackPanel>
+                        <TextBlock x:Name="UpdateStatus" TextWrapping="Wrap" Opacity="0.8" />
+                        <HyperlinkButton Content="zekra.site" NavigateUri="https://zekra.site" Padding="0" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

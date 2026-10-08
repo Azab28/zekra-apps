@@ -1,0 +1,37 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "paths": {
+      "@lib/khatma-room": [
+        "./src/shims/khatma-room.d.ts"
+      ],
+      "@lib/room-sync": [
+        "./src/shims/room-sync.d.ts"
+      ],
+      "@lib/*": [
+        "../../src/lib/*"
+      ],
+      "@/*": [
+        "./src/*"
+      ],
+      "luxon": [
+        "./node_modules/@types/luxon"
+      ],
+      "adhan": [
+        "./node_modules/adhan"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "scripts"
+  ]
+}

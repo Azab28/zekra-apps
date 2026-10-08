@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/../../..'))</RepoRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Zekra.Core/Zekra.Core.csproj" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+  <ItemGroup>
+    <FixtureInput Include="$(RepoRoot)/src/lib/cities.ts;$(RepoRoot)/src/lib/schedule/prayer-calc.ts;$(RepoRoot)/src/lib/hijri-core.ts;$(RepoRoot)/package.json;$(MSBuildProjectDirectory)/../tools/export.ts" />
+    <Content Include="Fixture/fixture.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <!-- The site's own prayer times and Hijri dates, recomputed whenever its code changes. -->
+  <Target Name="ExportFixture" BeforeTargets="BeforeBuild" Inputs="@(FixtureInput)" Outputs="Fixture/fixture.json">
+    <Exec Command="node --import tsx Apps/desktop/tools/export.ts fixture &quot;$(MSBuildProjectDirectory)/Fixture/fixture.json&quot;" WorkingDirectory="$(RepoRoot)" />
+  </Target>
+</Project>

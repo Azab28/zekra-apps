@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="Zekra.Desktop.QiblaWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid x:Name="Root" FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid x:Name="TitleBar" Height="48" Padding="16,0,16,0" ColumnSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ContentPresenter x:Name="LogoHost" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="اتجاه القبلة" VerticalAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}" />
+        </Grid>
+        <StackPanel Grid.Row="1" Padding="24,0,24,24" Spacing="16" HorizontalAlignment="Center">
+            <!-- The dial is drawn left-to-right: north up, east to the right. -->
+            <Grid x:Name="Dial" Width="280" Height="280" FlowDirection="LeftToRight">
+                <Ellipse Stroke="{ThemeResource CardStrokeColorDefaultBrush}" StrokeThickness="2" Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                <Canvas x:Name="Ticks" Width="280" Height="280" />
+                <TextBlock Text="ش" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,14,0,0" Foreground="{ThemeResource EmeraldBrush}" />
+                <TextBlock Text="ج" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,14" />
+                <TextBlock Text="شر" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,14,0" />
+                <TextBlock Text="غ" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="16,0,0,0" />
+                <!-- The needle points up (north) before it's turned to the qibla. -->
+                <Grid x:Name="Needle" Width="280" Height="280" RenderTransformOrigin="0.5,0.5">
+                    <Grid.RenderTransform>
+                        <RotateTransform x:Name="NeedleTurn" />
+                    </Grid.RenderTransform>
+                    <Polygon Points="140,40 152,140 140,132 128,140" Fill="{ThemeResource GoldBrush}" />
+                    <Polygon Points="140,240 152,140 140,148 128,140" Fill="{ThemeResource CardStrokeColorDefaultBrush}" />
+                    <FontIcon Glyph="&#xE80F;" FontSize="20" Foreground="{ThemeResource GoldBrush}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,12,0,0" />
+                </Grid>
+                <Ellipse Width="14" Height="14" Fill="{ThemeResource EmeraldBrush}" />
+            </Grid>
+            <TextBlock x:Name="BearingText" Style="{StaticResource SubtitleTextBlockStyle}" HorizontalAlignment="Center" TextAlignment="Center" />
+            <TextBlock x:Name="DistanceText" HorizontalAlignment="Center" Opacity="0.85" />
+            <TextBlock MaxWidth="360" TextWrapping="Wrap" TextAlignment="Center" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"
+                       Text="الزاوية من الشمال الحقيقي باتجاه عقارب الساعة. الكمبيوتر لا يعرف اتجاهه، فوجّه الرسم نحو الشمال ثم اتجه حيث يشير السهم." />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,226 @@
+{
+  "expo": {
+    "name": "ذِكرى",
+    "slug": "zekra",
+    "scheme": "zekra",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#fcfcf9",
+    "ios": {
+      "bundleIdentifier": "site.zekra.app",
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio"
+        ]
+      },
+      "associatedDomains": [
+        "applinks:zekra.site"
+      ]
+    },
+    "android": {
+      "package": "site.zekra.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.SCHEDULE_EXACT_ALARM"
+      ],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/k/"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/mushaf/"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/surah/"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/sunnah"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/r/"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/recitations"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/radio"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/prayer"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/hijri"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/qibla"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/tasbeeh"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/khatma"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/asma"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/ali"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/ramadan"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/salat"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/quran-duas"
+            },
+            {
+              "scheme": "https",
+              "host": "zekra.site",
+              "pathPrefix": "/recap"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
+    },
+    "extra": {
+      "supportsRTL": true,
+      "forcesRTL": true
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-image",
+      "expo-localization",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#fcfcf9",
+          "dark": {
+            "image": "./assets/splash-icon-dark.png",
+            "backgroundColor": "#0a110e"
+          }
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "يستعمل ذِكرى موقعك لحساب مواقيت الصلاة واتجاه القبلة على جهازك فقط."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#075C4C",
+          "defaultChannel": "adhan-v2"
+        }
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false,
+          "recordAudioAndroid": false,
+          "enableBackgroundPlayback": true
+        }
+      ],
+      [
+        "expo-secure-store",
+        {
+          "faceIDPermission": false
+        }
+      ],
+      "./plugins/adhan-sounds",
+      [
+        "react-native-android-widget",
+        {
+          "fonts": [
+            "./node_modules/@expo-google-fonts/ibm-plex-sans-arabic/400Regular/IBMPlexSansArabic_400Regular.ttf",
+            "./node_modules/@expo-google-fonts/ibm-plex-sans-arabic/700Bold/IBMPlexSansArabic_700Bold.ttf"
+          ],
+          "widgets": [
+            {
+              "name": "Prayer",
+              "label": "مواقيت الصلاة — ذِكرى",
+              "description": "الصلاة القادمة ومواقيت اليوم لمدينتك",
+              "minWidth": "250dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 4,
+              "targetCellHeight": 2,
+              "resizeMode": "horizontal|vertical",
+              "updatePeriodMillis": 1800000
+            }
+          ]
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true,
+            "useLegacyPackaging": true
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false,
+      "tsconfigPaths": false
+    }
+  }
+}

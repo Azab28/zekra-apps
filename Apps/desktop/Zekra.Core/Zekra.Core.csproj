@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/../../..'))</RepoRoot>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ExportInput Include="$(RepoRoot)/src/lib/cities.ts;$(RepoRoot)/src/lib/schedule/prayer-calc.ts;$(RepoRoot)/src/lib/hijri-core.ts;$(RepoRoot)/data/hisn.json;$(RepoRoot)/Apps/extension/src/lib/settings.ts;$(MSBuildProjectDirectory)/../tools/export.ts" />
+    <Content Include="Data/zekra.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <!-- Cities, labels and azkar come from the site's own files (needs `bun install` in the repo root). -->
+  <Target Name="ExportData" BeforeTargets="BeforeBuild" Inputs="@(ExportInput)" Outputs="Data/zekra.json">
+    <Exec Command="node --import tsx Apps/desktop/tools/export.ts data &quot;$(MSBuildProjectDirectory)/Data/zekra.json&quot;" WorkingDirectory="$(RepoRoot)" />
+  </Target>
+</Project>

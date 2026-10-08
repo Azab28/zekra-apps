@@ -37,7 +37,7 @@ Amiri, Amiri Quran and IBM Plex Sans Arabic, under the [SIL Open Font License 1.
 
 ## خدمات تستعملها التطبيقات · Services the apps call
 
-Weather and place names from [Open-Meteo](https://open-meteo.com) (CC BY 4.0), addresses from [OpenStreetMap Nominatim](https://nominatim.openstreetmap.org) (© OpenStreetMap contributors, ODbL), site icons from Google's favicon service, and the Zekra API at [zekra.site](https://zekra.site).
+Weather and place names from [Open-Meteo](https://open-meteo.com) (CC BY 4.0), addresses from [OpenStreetMap Nominatim](https://nominatim.openstreetmap.org) (© OpenStreetMap contributors, ODbL), site icons from Google's favicon service, search suggestions from Google's suggestion service (the extension's Edge and Firefox builds, when turned on), and the Zekra API at [zekra.site](https://zekra.site).
 
 ## كود من مشاريع أخرى · Third-party code
 

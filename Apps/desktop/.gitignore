@@ -1,0 +1,8 @@
+bin/
+obj/
+# Generated from the site's code by tools/export.ts on build
+Zekra.Core/Data/zekra.json
+Zekra.Tests/Fixture/
+*.user
+.vs/
+Zekra.Desktop/Assets/zekra.ico
