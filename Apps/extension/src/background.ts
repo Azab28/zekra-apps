@@ -7,7 +7,7 @@
  */
 import { loadLists, saveLists, TODO_KEY, dueReminders } from "./lib/data";
 import { isSynced, pullIfNewer, push } from "./lib/sync";
-import { loadSettings, type Settings } from "./lib/settings";
+import { loadSettings, WELCOME_KEY, type Settings } from "./lib/settings";
 import {
   azkarWindow,
   countdown,
@@ -194,7 +194,8 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 chrome.runtime.onInstalled.addListener((details) => {
-  if (details.reason === "install") void chrome.storage.local.set({ [PING_NEW]: true });
+  // A new install opens a new tab with the first-run guide (newtab/welcome.ts); an update shows nothing.
+  if (details.reason === "install") void chrome.storage.local.set({ [PING_NEW]: true, [WELCOME_KEY]: true }).then(() => chrome.tabs.create({}));
   void setupStats();
   void schedule();
   void scheduleZikr();

@@ -27,6 +27,7 @@ import { selectRow, toggleRow } from "./ui";
 import { AYAH_ACTION_LABELS, AYAH_ACTIONS, ENGINES, SUGGEST_ORIGIN, TOOLS, ZIKR_EVERY, type ControlPlace, type ToolId } from "../lib/settings";
 import { applyParts, collectParts, deviceId, PARTS, partsOf, pull, push, remoteMeta, type Backup, type Part } from "../lib/sync";
 import { openEditor } from "./dock";
+import { startWelcome } from "./welcome";
 import { BROWSER_TOOLS, browserName } from "./browser";
 import { searchPlaces, timezoneAt, type Found } from "../lib/geocode";
 import { STATIONS } from "../lib/radio";
@@ -410,16 +411,7 @@ function noticeSection() {
     "notice",
     "التنبيهات والأذان",
     S.notify.paused && h("p", { class: "note" }, icon("bell-off"), "التنبيهات والأذان موقوفة من زر الجرس في بطاقة الصلاة."),
-    selectRow(
-      "الأذان عند دخول الوقت",
-      S.adhan.mode,
-      [
-        ["full", "الأذان كاملًا"],
-        ["short", "الأذان مختصرًا (التكبيرات)"],
-        ["off", "إشعار بدون صوت"],
-      ],
-      (v) => void adhan({ mode: v as Settings["adhan"]["mode"] }),
-    ),
+    adhanModeRow(),
     S.adhan.mode !== "off" && h("label", { class: "set-row" }, h("span", null, "المؤذن"), h("span", { class: "row" }, play, voice)),
     S.adhan.mode !== "off" && sliderRow("صوت الأذان", S.adhan.volume, 0, 1, 0.05, percent, (v) => void adhan({ volume: v }), (v) => sample && (sample.volume = v)),
     toggleRow("إشعار عند دخول وقت الصلاة", S.notify.atAdhan, (v) => void notify({ atAdhan: v })),
@@ -448,6 +440,20 @@ function noticeSection() {
     ),
     toggleRow("أذكار الصباح والمساء", S.notify.azkar, (v) => void notify({ azkar: v }), "بعد الفجر وبعد العصر بنصف ساعة"),
     toggleRow("الوقت المتبقي على أيقونة الإضافة", S.badge, (v) => void update({ badge: v })),
+  );
+}
+
+/** The adhan at each time: full, short, or a silent notification (also in the first-run guide). */
+export function adhanModeRow() {
+  return selectRow(
+    "الأذان عند دخول الوقت",
+    S.adhan.mode,
+    [
+      ["full", "الأذان كاملًا"],
+      ["short", "الأذان مختصرًا (التكبيرات)"],
+      ["off", "إشعار بدون صوت"],
+    ],
+    (v) => void adhan({ mode: v as Settings["adhan"]["mode"] }),
   );
 }
 
@@ -562,7 +568,7 @@ function toolsSection() {
 
 /** Any place by its latitude and longitude (the timezone from the device or the nearest listed city). */
 /** A place by its address (for the prayer times and the weather). */
-function addressSearch() {
+export function addressSearch() {
   const results = h("div", { class: "geo-results", "aria-live": "polite" });
   const input = h("input", { class: "field", type: "search", placeholder: "القاهرة أو Cairo", "aria-label": "ابحث بالعنوان", maxlength: "120" });
   let seq = 0;
@@ -1075,6 +1081,27 @@ function importFile() {
 }
 
 function about() {
+  return h(
+    "div",
+    null,
+    h(
+      "button",
+      {
+        type: "button",
+        class: "btn",
+        onclick: () => {
+          $<HTMLDialogElement>("#settings").close();
+          startWelcome();
+        },
+      },
+      icon("compass"),
+      "جولة في الإضافة",
+    ),
+    aboutText(),
+  );
+}
+
+function aboutText() {
   return h(
     "p",
     { class: "about" },

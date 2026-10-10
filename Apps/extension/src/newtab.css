@@ -540,17 +540,33 @@ body {
   list-style: none;
 }
 
-.timeline::before {
+/* The line runs from the first node's centre to the last one's (half a column in from each side). */
+.timeline::before,
+.timeline::after {
   content: "";
   position: absolute;
   top: 16px;
-  inset-inline: 8%;
+  inset-inline-start: calc(100% / 12);
   height: 2px;
+}
+
+.timeline::before {
+  inset-inline-end: calc(100% / 12);
   background: var(--panel-border);
+}
+
+/* The part of the day gone so far (--progress segments of five, set by prayers.ts). */
+.timeline::after {
+  width: calc(var(--progress, 0) * 100% / 6);
+  border-radius: 2px;
+  background: var(--hi);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--hi) 55%, transparent);
+  transition: width 0.6s ease;
 }
 
 .stop {
   position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -589,10 +605,13 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-.stop.past {
+.stop.past .name,
+.stop.past .at {
   opacity: 0.7;
 }
 
+/* A time the line has reached lights up. */
+.stop.past .node,
 .stop.current .node {
   border-color: var(--hi);
   background: var(--hi);
@@ -3058,3 +3077,343 @@ button.engine-pick:hover {
   gap: 12px;
 }
 
+
+/* ---------- the first-run guide (newtab/welcome.ts) ---------- */
+.welcome {
+  inset: 0;
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  overflow: hidden;
+}
+
+.welcome::backdrop {
+  background: transparent;
+}
+
+.welcome[data-mode="card"] {
+  display: grid;
+  place-items: center;
+  background: rgb(0 0 0 / 0.28);
+}
+
+.wl-card {
+  display: flex;
+  flex-direction: column;
+  width: min(560px, 100vw - 24px);
+  max-height: min(92vh, 820px);
+  border-radius: 22px;
+  background: var(--pop-bg);
+  animation: wl-in 0.25s ease;
+}
+
+.wl-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 26px 26px 18px;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.wl-body h2,
+.wl-bubble h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.wl-body p,
+.wl-bubble p {
+  margin: 0;
+  line-height: 1.8;
+}
+
+.wl-body .set-box {
+  align-self: stretch;
+  text-align: start;
+}
+
+.wl-logo {
+  width: 64px;
+  height: 64px;
+}
+
+.wl-lead {
+  font-size: 1.02rem;
+  font-weight: 600;
+}
+
+.wl-dua {
+  margin: 4px 0 0;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: var(--chip-bg);
+  font-family: var(--font-naskh);
+  font-size: 1.05rem;
+  line-height: 2;
+}
+
+.wl-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--hi);
+  color: var(--hi-fg);
+}
+
+.wl-icon .icon {
+  width: 26px;
+  height: 26px;
+}
+
+.wl-themes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  align-self: stretch;
+  margin-top: 6px;
+}
+
+.wl-theme {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 8px 10px;
+  border: 2px solid var(--panel-border);
+  border-radius: 16px;
+  background: var(--chip-bg);
+  color: inherit;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.wl-theme:hover {
+  background: var(--chip-hover);
+}
+
+.wl-theme[aria-checked="true"] {
+  border-color: var(--hi);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--hi) 25%, transparent);
+}
+
+/* A small picture of each look: a page with a card on it. */
+.wl-swatch {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.wl-swatch span:first-child {
+  position: absolute;
+  inset: 22% 18% auto;
+  height: 32%;
+  border-radius: 6px;
+}
+
+.wl-swatch span:last-child {
+  position: absolute;
+  inset: auto 30% 16%;
+  height: 12%;
+  border-radius: 4px;
+}
+
+.t-light .wl-swatch { background: #f4f1ea; }
+.t-light .wl-swatch span:first-child { background: #fff; box-shadow: 0 1px 3px rgb(0 0 0 / 0.15); }
+.t-light .wl-swatch span:last-child { background: oklch(0.46 0.095 166); }
+.t-dark .wl-swatch { background: #14181a; }
+.t-dark .wl-swatch span:first-child { background: #22282b; }
+.t-dark .wl-swatch span:last-child { background: #8ee07a; }
+.t-glass-light .wl-swatch,
+.t-glass-dark .wl-swatch { background: linear-gradient(135deg, #c99a5b, #5c6f63 55%, #23313a); }
+.t-glass-light .wl-swatch span:first-child { background: rgb(255 255 255 / 0.62); }
+.t-glass-light .wl-swatch span:last-child { background: oklch(0.46 0.095 166); }
+.t-glass-dark .wl-swatch span:first-child { background: rgb(8 10 12 / 0.55); }
+.t-glass-dark .wl-swatch span:last-child { background: #8ee07a; }
+
+.wl-place {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.wl-place strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wl-nav {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--panel-border);
+}
+
+.wl-nav > .row {
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+}
+
+.wl-nav > :first-child {
+  justify-self: start;
+}
+
+.wl-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.wl-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--panel-border);
+  transition: width 0.2s;
+}
+
+.wl-dots .done {
+  background: color-mix(in srgb, var(--hi) 55%, transparent);
+}
+
+.wl-dots .on {
+  width: 18px;
+  border-radius: 4px;
+  background: var(--hi);
+}
+
+/* The tour: the page dimmed around the part being shown, and a bubble beside it. */
+.wl-ring {
+  position: absolute;
+  border-radius: 18px;
+  box-shadow:
+    0 0 0 3px var(--hi),
+    0 0 0 9999px rgb(0 0 0 / 0.55);
+  transition:
+    left 0.3s ease,
+    top 0.3s ease,
+    width 0.3s ease,
+    height 0.3s ease;
+  pointer-events: none;
+}
+
+.wl-bubble {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: min(360px, 100vw - 24px);
+  border-radius: 18px;
+  background: var(--pop-bg);
+  animation: wl-in 0.25s ease;
+}
+
+.wl-bubble h2 {
+  padding: 16px 18px 0;
+  font-size: 1.05rem;
+}
+
+.wl-bubble p {
+  padding: 6px 18px 14px;
+  font-size: 0.92rem;
+}
+
+.wl-bubble .wl-nav {
+  grid-template-columns: auto 1fr;
+  padding: 10px 12px;
+}
+
+.wl-bubble .wl-dots {
+  display: none;
+}
+
+@keyframes wl-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wl-card,
+  .wl-bubble,
+  .wl-ring {
+    animation: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .wl-themes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.wl-choices {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  align-self: stretch;
+  margin-top: 6px;
+}
+
+.wl-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 14px;
+  border: 2px solid var(--panel-border);
+  border-radius: 16px;
+  background: var(--chip-bg);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.wl-choice:hover {
+  background: var(--chip-hover);
+}
+
+.wl-choice[aria-checked="true"] {
+  border-color: var(--hi);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--hi) 25%, transparent);
+}
+
+.wl-choice .icon {
+  width: 26px;
+  height: 26px;
+  color: var(--hi);
+}
+
+.wl-choice strong {
+  font-size: 1rem;
+}
+
+.wl-choice span {
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--muted-fg);
+}
+
+@media (max-width: 560px) {
+  .wl-choices {
+    grid-template-columns: 1fr;
+  }
+}

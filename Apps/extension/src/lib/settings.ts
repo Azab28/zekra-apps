@@ -28,6 +28,9 @@ export const THEMES: [Theme, string][] = [
   ["light", "فاتح"],
 ];
 export const isGlass = (t: Theme) => t === "glass-light" || t === "glass-dark";
+
+/** Set on a new install until the first-run guide is finished or skipped (local storage, never synced). */
+export const WELCOME_KEY = "welcome";
 export const isDarkTheme = (t: Theme) => t === "dark" || t === "glass-dark";
 
 export type BgCategory = "islamic" | "nature" | "favorites" | "custom";

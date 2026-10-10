@@ -17,6 +17,7 @@ import { initState, subscribe } from "./newtab/state";
 import { openTodo } from "./newtab/todo";
 import { openApps, openBookmarks, openExtensions, openHistory } from "./newtab/browser";
 import { renderTools } from "./newtab/tools";
+import { welcomeOnFirstRun } from "./newtab/welcome";
 import { TODO_KEY } from "./lib/data";
 import { $ } from "./lib/dom";
 import { onRadioChange, radioState } from "./lib/radio";
@@ -77,6 +78,7 @@ async function main() {
     history.replaceState(null, "", location.pathname);
     openSettings(page);
   }
+  void welcomeOnFirstRun();
 }
 
 void main();

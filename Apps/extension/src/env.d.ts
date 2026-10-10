@@ -14,3 +14,5 @@ declare const __BACKGROUNDS__: import("./lib/types").ExtBackground[];
 declare const __JUZ__: number[];
 /** The zikr reminder's phrases (words from hisn.json). */
 declare const __ZIKR__: { id: string; text: string }[];
+/** The first-run guide's dedication (scripts/build-extension.ts `memorial()`). */
+declare const __MEMORIAL__: { name: string; dua: string; source: string };

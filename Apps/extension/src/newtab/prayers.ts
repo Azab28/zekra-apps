@@ -57,6 +57,12 @@ export function renderPrayers() {
   const passed = PRAYER_NAMES.filter((p) => today[p].getTime() <= now);
   const current: PrayerName = passed.at(-1) ?? "isha";
   const nextToday = today[next.prayer].getTime() === next.at.getTime();
+  // How far along the line the day is, in segments (0 at fajr, 5 at isha): full up to the
+  // current time, then the part of the way to the next one that has passed.
+  const ci = passed.length - 1;
+  const following = PRAYER_NAMES[ci + 1];
+  const progress =
+    ci < 0 ? 0 : following ? ci + Math.min(1, (now - today[PRAYER_NAMES[ci]].getTime()) / (today[following].getTime() - today[PRAYER_NAMES[ci]].getTime())) : ci;
 
   fill(
     box,
@@ -74,7 +80,7 @@ export function renderPrayers() {
     ),
     h(
       "ol",
-      { class: "timeline" },
+      { class: "timeline", style: `--progress: ${progress.toFixed(3)}` },
       ...PRAYER_NAMES.map((p) => {
         const state = p === current ? "current" : nextToday && p === next.prayer ? "next" : today[p].getTime() < now ? "past" : "";
         const at = formatTime(today[p], place.timezone, S.clock24);

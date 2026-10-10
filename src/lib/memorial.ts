@@ -15,7 +15,12 @@ export const MEMORIAL = {
   khatmaSlug: "aliazab",
   /** The media collection (/dashboard/admin/media) whose photos his page shows. */
   photos: "علي متولي عزب",
+  /** Hisn al-Muslim: «الدعاء للميت في الصلاة عليه», its first dua (his page, the extension's guide). */
+  dua: { chapter: 55, item: 156 },
 } as const;
+
+/** The dua as the book gives it, without its marks: «((…))» around the Prophet's words, «[…]» around another narration's wording. */
+export const plainDua = (text: string) => text.replace(/\(\(|\)\)|\[|\]/g, "").replace(/\s+/g, " ").trim();
 
 /** «ذِكرى صدقة جارية عن علي متولي عزب رحمه الله» */
 export const MEMORIAL_LINE = `صدقة جارية عن ${MEMORIAL.name} رحمه الله`;

@@ -82,6 +82,11 @@ export function startAyah() {
   void show({ start: p.start, end: p.end }, p.c != null ? CURATED[p.c] : undefined);
 }
 
+/** A khatma from the start: Al-Fatiha's first ayah here, then on through the mushaf one ayah a tab. */
+export function showFromStart() {
+  void show({ start: 0, end: 0 });
+}
+
 /** Picks the next tab's passage and puts its page fonts in the cache. */
 async function prepareNext() {
   const p = pickNext(view);

@@ -31,6 +31,7 @@ import { shortSurahName, stripTashkeel, toArabicDigits } from "../src/lib/conten
 import { hisn, qcf, quran, radioStations, reciters, tafsirMuyassar } from "../src/lib/content/data";
 import { SELECTED_AYAT } from "../src/lib/content/selected-ayat";
 import { COLORS, drawBackground, ensureFonts, font } from "../src/lib/images/canvas";
+import { MEMORIAL, plainDua } from "../src/lib/memorial";
 import type { SurahMeta } from "../Apps/extension/src/lib/quran";
 import type { ExtAyah, ExtBackground, ExtReciterRow, ExtStation, ExtZikr } from "../Apps/extension/src/lib/types";
 
@@ -158,6 +159,14 @@ function zikrPhrases(): { id: string; text: string }[] {
     }
     throw new Error(`zikr «${key}» is not in hisn.json`);
   });
+}
+
+/** The first-run guide's dedication: his name and the dua for the deceased, out of hisn.json (as on his page, /ali). */
+function memorial() {
+  const c = hisn().chapters.find((x) => x.id === MEMORIAL.dua.chapter);
+  const z = c?.items.find((i) => i.id === MEMORIAL.dua.item);
+  if (!c || !z) throw new Error(`the memorial dua (${MEMORIAL.dua.chapter}/${MEMORIAL.dua.item}) is not in hisn.json`);
+  return { name: MEMORIAL.name, dua: plainDua(z.text), source: `حصن المسلم: ${c.title}` };
 }
 
 function backgrounds(): ExtBackground[] {
@@ -631,6 +640,7 @@ async function build(b: Browser) {
       __JUZ__: JSON.stringify(juzStarts()),
       __ZIKR__: JSON.stringify(zikrPhrases()),
       __BACKGROUNDS__: JSON.stringify(backgrounds()),
+      __MEMORIAL__: JSON.stringify(memorial()),
     },
   };
   if (args.has("--watch")) {
